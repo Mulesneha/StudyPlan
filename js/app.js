@@ -2,6 +2,7 @@ import { store } from './store.js';
 import { extractTasksFromText } from './utils/api.js';
 import { initGlobalErrorBoundary } from './utils/errorBoundary.js';
 import { analyzeWorkload } from './utils/scheduler.js';
+import { Toast } from './utils/toast.js';
 
 initGlobalErrorBoundary();
 
@@ -208,7 +209,7 @@ function startTimer() {
     if (timeLeft === 0) {
       clearInterval(timerInterval);
       timerInterval = null;
-      alert('Focus session complete!');
+      Toast.show('Focus session complete!', 'success');
       resetTimer();
     }
   }, 1000);
@@ -380,7 +381,7 @@ async function downloadData() {
 
     } catch (error) {
         console.error(error);
-        alert('Failed to download data');
+        Toast.show('Failed to download data', 'error');
     }
 }
 
@@ -976,7 +977,7 @@ document.addEventListener('DOMContentLoaded', () => {
 newTaskBtn.addEventListener('click', () => {
   
   if (!store.subjects || store.subjects.length === 0) {
-    alert('Subjects are still loading. Please try again in a moment.');
+    Toast.show('Subjects are still loading. Please try again in a moment.', 'warning');
     return;
   }
 
@@ -1016,7 +1017,7 @@ newTaskSave.addEventListener('click', async () => {
   const dateVal = newTaskDate.value;
 
   if (!title) {
-    alert('Please enter a task name');
+    Toast.show('Please enter a task name', 'warning');
     return;
   }
 
